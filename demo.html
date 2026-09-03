@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM Eval Harness — Live Demo · Zahid Ahmed</title>
+<meta name="description" content="An interactive, in-browser demo of llm-eval-harness — score LLM answers against a gold set with per-question match rules.">
+<style>
+  :root{--bg:#0d1117;--panel:#141b24;--panel2:#1a2330;--ink:#e6edf3;--muted:#9aa7b4;
+        --line:#243040;--accent:#4c8bf5;--accent2:#63d2a2;--bad:#f2707a;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);
+       font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+  .wrap{max-width:960px;margin:0 auto;padding:0 22px}
+  .top{border-bottom:1px solid var(--line);background:linear-gradient(90deg,var(--accent),var(--accent2));height:2px}
+  header{padding:26px 0 8px}
+  header .row{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+  h1{font-size:24px}
+  header p{color:var(--muted);margin-top:4px;max-width:680px}
+  .links{font-size:13px}
+  section{padding:20px 0}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+  label{display:block;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--accent2);margin-bottom:6px;font-weight:700}
+  textarea{width:100%;height:210px;background:var(--panel);color:var(--ink);border:1px solid var(--line);
+           border-radius:8px;padding:12px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;resize:vertical}
+  textarea:focus{outline:none;border-color:var(--accent)}
+  .btnrow{margin:16px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  button{background:var(--accent);color:#fff;border:0;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer}
+  button:hover{background:#3f79db}
+  button.ghost{background:var(--panel);border:1px solid var(--line);color:var(--ink)}
+  button.ghost:hover{background:var(--panel2)}
+  .result{margin-top:14px}
+  .acc{font-size:22px;font-weight:800;margin-bottom:12px}
+  .acc .n{font-family:ui-monospace,monospace}
+  .item{border:1px solid var(--line);border-left-width:4px;border-radius:8px;padding:10px 14px;margin:8px 0;background:var(--panel)}
+  .item.pass{border-left-color:var(--accent2)}
+  .item.fail{border-left-color:var(--bad)}
+  .item .id{font-family:ui-monospace,monospace;font-weight:700}
+  .item .id.pass{color:var(--accent2)}.item .id.fail{color:var(--bad)}
+  .item .q{color:var(--muted);font-size:14px;margin:2px 0}
+  .item .kv{font-size:13px;font-family:ui-monospace,monospace;color:var(--muted);margin-top:4px}
+  .err{color:var(--bad);font-family:ui-monospace,monospace;font-size:13px;background:var(--panel);border:1px solid var(--bad);border-radius:8px;padding:12px;white-space:pre-wrap}
+  .note{color:var(--muted);font-size:13px;margin-top:8px}
+  table.rules{border-collapse:collapse;font-size:13px;margin-top:6px}
+  table.rules td{border:1px solid var(--line);padding:4px 10px}
+  table.rules td:first-child{color:var(--accent2);font-family:ui-monospace,monospace}
+  footer{padding:26px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="top"></div>
+<header><div class="wrap">
+  <div class="row">
+    <h1>LLM Eval Harness — Live Demo</h1>
+    <div class="links"><a href="./">← Portfolio</a></div>
+  </div>
+  <p>Score model answers against a gold set with per-question match rules. This is a browser demo of my open-source <a href="https://github.com/zahid23saim/llm-eval-harness" target="_blank" rel="noopener">llm-eval-harness</a> (Python, tested) — edit either box and re-run. <a href="https://dev.to/zahid23saim/automating-llm-answer-evaluation-with-a-small-python-scoring-script-4f8o" target="_blank" rel="noopener">Read the write-up →</a></p>
+</div></header>
+
+<section><div class="wrap">
+  <div class="grid">
+    <div>
+      <label for="gold">Gold set (JSON)</label>
+      <textarea id="gold" spellcheck="false"></textarea>
+    </div>
+    <div>
+      <label for="answers">Model answers (JSON)</label>
+      <textarea id="answers" spellcheck="false"></textarea>
+    </div>
+  </div>
+
+  <div class="btnrow">
+    <button id="run">Score answers</button>
+    <button id="reset" class="ghost">Reset example</button>
+    <span class="note">Match rules:</span>
+    <table class="rules">
+      <tr><td>exact</td><td>normalized answer equals gold</td></tr>
+      <tr><td>contains</td><td>gold appears inside the answer</td></tr>
+      <tr><td>numeric</td><td>first numbers within <code>tol</code></td></tr>
+    </table>
+  </div>
+
+  <div id="out" class="result"></div>
+</div></section>
+
+<footer><div class="wrap">Same logic as the tested Python tool — <a href="https://github.com/zahid23saim/llm-eval-harness" target="_blank" rel="noopener">source on GitHub</a>. Built by Zahid Ahmed.</div></footer>
+
+<script>
+// --- scoring logic (a faithful JS port of the tested Python harness) ---
+function normalize(t){return String(t).trim().toLowerCase().replace(/\s+/g," ").replace(/[.!?,;:]+$/,"");}
+function firstNumber(t){const m=String(t).replace(/,/g,"").match(/-?\d+(?:\.\d+)?/);return m?parseFloat(m[0]):null;}
+function isCorrect(item,ans){
+  const kind=item.match||"exact", gold=String(item.answer);
+  if(kind==="exact")   return normalize(ans)===normalize(gold);
+  if(kind==="contains")return normalize(ans).includes(normalize(gold));
+  if(kind==="numeric"){const g=firstNumber(ans),w=firstNumber(gold);
+    if(g===null||w===null)return false; return Math.abs(g-w)<=(item.tol||0);}
+  throw new Error("unknown match type: "+JSON.stringify(kind));
+}
+function score(gold,answers){
+  let passed=0; const fails=[];
+  for(const it of gold){
+    const a=(answers[it.id]!==undefined)?answers[it.id]:"";
+    if(isCorrect(it,a)) passed++;
+    else fails.push({id:it.id,question:it.question||"",expected:it.answer,got:a||"(no answer)"});
+  }
+  return {acc:passed/gold.length,total:gold.length,passed,fails};
+}
+
+const EX_GOLD=[
+  {id:"q1",question:"What year did the first moon landing happen?",answer:"1969",match:"contains"},
+  {id:"q2",question:"What is pi to two decimals?",answer:"3.14",match:"numeric",tol:0.01},
+  {id:"q3",question:"Name the capital of France.",answer:"Paris",match:"contains"},
+  {id:"q4",question:"What does HTTP status 404 mean?",answer:"Not Found",match:"contains"},
+  {id:"q5",question:"How many bits are in a byte?",answer:"8",match:"numeric"}
+];
+const EX_ANS={
+  q1:"The first moon landing was in 1969.",
+  q2:"Pi is about 3.14159",
+  q3:"The capital of France is Paris.",
+  q4:"It means the page was Not Found.",
+  q5:"A byte has seven bits."
+};
+
+const goldEl=document.getElementById("gold"), ansEl=document.getElementById("answers"), out=document.getElementById("out");
+function loadExample(){goldEl.value=JSON.stringify(EX_GOLD,null,2);ansEl.value=JSON.stringify(EX_ANS,null,2);out.innerHTML="";}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+function run(){
+  let gold,answers;
+  try{gold=JSON.parse(goldEl.value);}catch(e){return show(err("Gold set is not valid JSON: "+e.message));}
+  try{answers=JSON.parse(ansEl.value);}catch(e){return show(err("Answers is not valid JSON: "+e.message));}
+  if(!Array.isArray(gold)||!gold.length)return show(err("Gold set must be a non-empty JSON array."));
+  let r;
+  try{r=score(gold,answers);}catch(e){return show(err(e.message));}
+  const pct=Math.round(r.acc*100);
+  let html='<div class="acc">accuracy: <span class="n">'+pct+'%</span>  ('+r.passed+"/"+r.total+")</div>";
+  const failIds=new Set(r.fails.map(f=>f.id));
+  for(const it of gold){
+    if(failIds.has(it.id)){
+      const f=r.fails.find(x=>x.id===it.id);
+      html+='<div class="item fail"><span class="id fail">FAIL '+esc(it.id)+'</span>'
+          +(f.question?' <span class="q">'+esc(f.question)+"</span>":"")
+          +'<div class="kv">expected: '+esc(JSON.stringify(f.expected))+"</div>"
+          +'<div class="kv">got:      '+esc(JSON.stringify(f.got))+"</div></div>";
+    }else{
+      html+='<div class="item pass"><span class="id pass">PASS '+esc(it.id)+"</span>"
+          +(it.question?' <span class="q">'+esc(it.question)+"</span>":"")+"</div>";
+    }
+  }
+  show(html);
+}
+function err(m){return '<div class="err">'+esc(m)+"</div>";}
+function show(h){out.innerHTML=h;}
+
+document.getElementById("run").onclick=run;
+document.getElementById("reset").onclick=()=>{loadExample();run();};
+loadExample(); run();
+</script>
+</body>
+</html>
