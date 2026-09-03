@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zahid Ahmed — Software Developer &amp; AI Evaluation</title>
+<meta name="description" content="Zahid Ahmed — software developer and AI-data specialist. Python, .NET, SQL/Oracle PL/SQL, and large-language-model evaluation. Open-source projects and technical writing.">
+<style>
+  :root{
+    --bg:#0d1117; --panel:#141b24; --panel2:#1a2330; --ink:#e6edf3; --muted:#9aa7b4;
+    --line:#243040; --accent:#4c8bf5; --accent2:#63d2a2; --chip:#1e2a3a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       -webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:920px;margin:0 auto;padding:0 22px}
+  section{padding:58px 0;border-top:1px solid var(--line)}
+  h2{font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--accent2);margin-bottom:22px;font-weight:700}
+  h3{font-size:19px;margin-bottom:3px}
+  p{color:var(--ink)}
+  .muted{color:var(--muted)}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.85);backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px}
+  nav .brand{font-weight:700;color:var(--ink)}
+  nav .links{display:flex;gap:20px}
+  nav .links a{color:var(--muted);font-size:14px}
+  nav .links a:hover{color:var(--ink);text-decoration:none}
+  @media(max-width:640px){nav .links{display:none}}
+
+  /* hero */
+  header.hero{padding:70px 0 58px}
+  .hero .kicker{color:var(--accent2);font-weight:600;letter-spacing:1px;font-size:14px;text-transform:uppercase}
+  .hero h1{font-size:44px;line-height:1.1;margin:10px 0 8px;letter-spacing:-.5px}
+  .hero .role{font-size:20px;color:var(--muted);margin-bottom:18px}
+  .hero .blurb{max-width:680px;color:var(--ink);font-size:17px}
+  .hero .meta{margin-top:18px;color:var(--muted);font-size:14px}
+  .btns{margin-top:24px;display:flex;flex-wrap:wrap;gap:12px}
+  .btn{display:inline-block;padding:10px 16px;border-radius:8px;font-size:14px;font-weight:600;border:1px solid var(--line)}
+  .btn.solid{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn.solid:hover{background:#3f79db;text-decoration:none}
+  .btn.ghost{color:var(--ink);background:var(--panel)}
+  .btn.ghost:hover{background:var(--panel2);text-decoration:none}
+
+  /* skills */
+  .skillgrid{display:grid;grid-template-columns:180px 1fr;gap:10px 20px}
+  .skillgrid .k{color:var(--accent2);font-weight:600}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:3px 10px;font-size:13px;color:var(--ink)}
+  @media(max-width:640px){.skillgrid{grid-template-columns:1fr;gap:4px 0}.skillgrid .k{margin-top:12px}}
+
+  /* experience */
+  .role-item{padding:16px 0;border-bottom:1px solid var(--line)}
+  .role-item:last-child{border-bottom:0}
+  .role-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;align-items:baseline}
+  .role-head .org{color:var(--muted)}
+  .role-head .when{color:var(--muted);font-size:13px;white-space:nowrap}
+  .role-item ul{margin:8px 0 0 18px;color:var(--muted)}
+  .role-item li{margin:2px 0}
+
+  /* projects */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:640px){.cards{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column}
+  .card h3{font-size:17px}
+  .card .stack{color:var(--accent2);font-size:12px;margin:4px 0 10px;font-family:ui-monospace,Menlo,Consolas,monospace}
+  .card p{color:var(--muted);font-size:14px;flex:1}
+  .card .links{margin-top:12px;display:flex;gap:14px;font-size:13px;font-weight:600}
+  .badge{display:inline-block;font-size:11px;color:var(--accent2);border:1px solid var(--accent2);border-radius:20px;padding:1px 8px;margin-left:6px;vertical-align:middle}
+
+  /* writing */
+  .post{padding:13px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+  .post:last-child{border-bottom:0}
+  .post .t{font-weight:600;color:var(--ink)}
+  .post .tag{color:var(--muted);font-size:12px;white-space:nowrap}
+
+  /* education */
+  .edu{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.edu{grid-template-columns:1fr}}
+  .edu .d{font-weight:600}
+  .edu .m{color:var(--muted);font-size:13px}
+
+  /* contact */
+  .contact a{display:inline-block;margin-right:18px}
+  footer{padding:30px 0;color:var(--muted);font-size:13px;text-align:center;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <span class="brand">Zahid Ahmed</span>
+  <div class="links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#writing">Writing</a>
+    <a href="#contact">Contact</a>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">Software Developer · AI Evaluation &amp; Data Quality</div>
+  <h1>Zahid Ahmed</h1>
+  <div class="role">Building software, and testing where AI breaks.</div>
+  <p class="blurb">Full-stack developer with an MCA and 3+ years of dedicated Python development, now focused on large-language-model evaluation — designing tasks and tests that reveal where AI coding agents fail. I build in Python, .NET, and SQL, and I write about it.</p>
+  <div class="meta">📍 Malegaon, Maharashtra, India &nbsp;·&nbsp; ✉️ <a href="mailto:zahid23saim@gmail.com">zahid23saim@gmail.com</a></div>
+  <div class="btns">
+    <a class="btn solid" href="https://github.com/zahid23saim" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn ghost" href="https://dev.to/zahid23saim" target="_blank" rel="noopener">Technical Writing</a>
+    <a class="btn ghost" href="mailto:zahid23saim@gmail.com">Email</a>
+  </div>
+</div></header>
+
+<section id="about"><div class="wrap">
+  <h2>About</h2>
+  <p>I’m a software developer and AI-data specialist with a Master of Computer Applications and a long track record across software engineering, database work, and quality assurance. I’ve built full-stack web applications and backend systems in Python, .NET, C#, and Java, and tuned complex SQL and Oracle PL/SQL workloads for performance.</p>
+  <p style="margin-top:12px">More recently my focus has shifted to AI evaluation: auditing large-language-model output for factual and technical correctness, and authoring benchmark tasks that genuinely challenge frontier coding models — designing the task, defining what “solved” means, and writing verifiers that accept every valid solution while rejecting subtly broken ones. It sits right where software engineering meets AI quality, and it’s the work I find most interesting.</p>
+</div></section>
+
+<section id="skills"><div class="wrap">
+  <h2>Skills</h2>
+  <div class="skillgrid">
+    <div class="k">Languages</div>
+    <div class="chips"><span class="chip">Python</span><span class="chip">C#</span><span class="chip">.NET / .NET Core</span><span class="chip">Java</span><span class="chip">C</span><span class="chip">C++</span><span class="chip">SQL</span><span class="chip">PL/SQL</span></div>
+    <div class="k">Web &amp; Frameworks</div>
+    <div class="chips"><span class="chip">ASP.NET Core</span><span class="chip">Entity Framework</span><span class="chip">MVC</span><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span></div>
+    <div class="k">Databases &amp; Tools</div>
+    <div class="chips"><span class="chip">Oracle (DBA &amp; PL/SQL)</span><span class="chip">MySQL</span><span class="chip">MariaDB</span><span class="chip">Stored Procedures</span><span class="chip">Git</span><span class="chip">Docker</span></div>
+    <div class="k">AI &amp; Data Quality</div>
+    <div class="chips"><span class="chip">LLM Evaluation</span><span class="chip">Benchmark / Task Authoring</span><span class="chip">Factuality &amp; STEM Auditing</span><span class="chip">Prompt Evaluation</span><span class="chip">TTS Quality (MOS)</span></div>
+  </div>
+</div></section>
+
+<section id="experience"><div class="wrap">
+  <h2>Experience</h2>
+
+  <div class="role-item">
+    <div class="role-head"><h3>AI Data Contributor &amp; Evaluator</h3><span class="when">May 2025 – Jun 2026</span></div>
+    <div class="org">Appen</div>
+    <ul>
+      <li>Evaluated LLM-generated content across multilingual datasets (English, Hindi, Tamil, Marathi).</li>
+      <li>Ran Python-assisted factuality and quality checks on STEM-focused AI queries.</li>
+      <li>Assessed AI audio dubbing and TTS output using Mean Opinion Score (MOS) scales.</li>
+    </ul>
+  </div>
+
+  <div class="role-item">
+    <div class="role-head"><h3>Software Developer</h3><span class="when">2021 – 2023</span></div>
+    <div class="org">Emsys Solutions Pvt Ltd</div>
+    <ul>
+      <li>Built and maintained custom software for vehicle dealerships, streamlining sales and operations.</li>
+      <li>Engineered web apps and backend services with Python, .NET Core, C#, Entity Framework, and MVC.</li>
+      <li>Authored and optimized complex SQL / MySQL / MariaDB stored procedures.</li>
+    </ul>
+  </div>
+
+  <div class="role-item">
+    <div class="role-head"><h3>Freelance Translator &amp; Transcriptionist</h3><span class="when">May 2024 – Apr 2025</span></div>
+    <div class="org">Freelance</div>
+    <ul>
+      <li>Delivered verbatim transcription and technical translation across four languages.</li>
+      <li>Performed systematic audio auditing to enforce transcription integrity.</li>
+    </ul>
+  </div>
+
+  <div class="role-item">
+    <div class="role-head"><h3>Quality Analyst · Sr. Research Associate · Research Associate</h3><span class="when">2009 – 2024</span></div>
+    <div class="org">Datamatics Business Solutions Ltd</div>
+    <ul>
+      <li>Progressed across QA and research roles: resource/TAT planning, entity-data validation, and quality-control protocols on research datasets.</li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="projects"><div class="wrap">
+  <h2>Projects &amp; Open Source</h2>
+  <div class="cards">
+
+    <div class="card">
+      <h3>llm-eval-harness <span class="badge">tested</span></h3>
+      <div class="stack">Python · pytest · stdlib</div>
+      <p>A dependency-free harness for scoring LLM answers against a gold set, with per-question match rules (exact / contains / numeric), gold-file validation, actionable failure output, and a CI-friendly exit code.</p>
+      <div class="links">
+        <a href="https://github.com/zahid23saim/llm-eval-harness" target="_blank" rel="noopener">Code →</a>
+        <a href="https://dev.to/zahid23saim/automating-llm-answer-evaluation-with-a-small-python-scoring-script-4f8o" target="_blank" rel="noopener">Write-up →</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>aspnet-minimal-api <span class="badge">7/7 tests</span></h3>
+      <div class="stack">C# · ASP.NET Core · .NET 8 · xUnit</div>
+      <p>A compact task-tracker Web API in a single file — full CRUD with validation and correct status codes — plus integration tests that boot the app in memory and exercise the real endpoints.</p>
+      <div class="links">
+        <a href="https://github.com/zahid23saim/aspnet-minimal-api" target="_blank" rel="noopener">Code →</a>
+        <a href="https://dev.to/zahid23saim/building-a-tested-aspnet-core-minimal-api-in-one-file-20c1" target="_blank" rel="noopener">Write-up →</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>plsql-bulk-examples</h3>
+      <div class="stack">Oracle PL/SQL</div>
+      <p>Runnable examples that turn a slow row-by-row load into fast batched processing with BULK COLLECT and FORALL, plus SAVE EXCEPTIONS error handling — demonstrated on a 200k-row table.</p>
+      <div class="links">
+        <a href="https://github.com/zahid23saim/plsql-bulk-examples" target="_blank" rel="noopener">Code →</a>
+        <a href="https://dev.to/zahid23saim/speeding-up-a-slow-plsql-routine-with-bulk-collect-and-forall-5c0l" target="_blank" rel="noopener">Write-up →</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Smart Maintenance Portal</h3>
+      <div class="stack">Java · Python · MySQL · HTML/CSS</div>
+      <p>A full-stack web portal for submitting municipal complaints and tracking resolution, with an admin dashboard that routes complaints to departments and monitors real-time status.</p>
+      <div class="links"><span class="muted" style="font-size:13px">Academic / professional project</span></div>
+    </div>
+
+  </div>
+</div></section>
+
+<section id="writing"><div class="wrap">
+  <h2>Technical Writing</h2>
+  <div class="post"><span class="t"><a href="https://dev.to/zahid23saim/automating-llm-answer-evaluation-with-a-small-python-scoring-script-4f8o" target="_blank" rel="noopener">Automating LLM Answer Evaluation with a Small Python Scoring Script</a></span><span class="tag">Tutorial · Python</span></div>
+  <div class="post"><span class="t"><a href="https://dev.to/zahid23saim/speeding-up-a-slow-plsql-routine-with-bulk-collect-and-forall-5c0l" target="_blank" rel="noopener">Speeding Up a Slow PL/SQL Routine with BULK COLLECT and FORALL</a></span><span class="tag">Tutorial · Oracle</span></div>
+  <div class="post"><span class="t"><a href="https://dev.to/zahid23saim/building-a-tested-aspnet-core-minimal-api-in-one-file-20c1" target="_blank" rel="noopener">Building a Tested ASP.NET Core Minimal API in One File</a></span><span class="tag">Tutorial · .NET</span></div>
+  <div class="post"><span class="t"><a href="https://dev.to/zahid23saim/what-i-learned-evaluating-llms-across-four-languages-956" target="_blank" rel="noopener">What I Learned Evaluating LLMs Across Four Languages</a></span><span class="tag">Opinion · AI</span></div>
+  <p class="muted" style="margin-top:14px;font-size:14px">More at <a href="https://dev.to/zahid23saim" target="_blank" rel="noopener">dev.to/zahid23saim</a></p>
+</div></section>
+
+<section id="education"><div class="wrap">
+  <h2>Education &amp; Credentials</h2>
+  <div class="edu">
+    <div><div class="d">Master of Computer Applications (MCA)</div><div class="m">Savitribai Phule Pune University · 2009–2012</div></div>
+    <div><div class="d">B.Sc. in Information Technology</div><div class="m">Akbar Peerbhoy College · 2005</div></div>
+    <div><div class="d">Oracle DBA &amp; PL/SQL Certification</div><div class="m">Karrox Technology · 2007</div></div>
+    <div><div class="d">Languages</div><div class="m">English, Hindi, Tamil, Marathi — professional fluency</div></div>
+  </div>
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <h2>Contact</h2>
+  <p style="margin-bottom:16px" class="muted">Open to remote, project-based software and AI-evaluation work.</p>
+  <div class="contact">
+    <a href="mailto:zahid23saim@gmail.com">✉️ zahid23saim@gmail.com</a>
+    <a href="https://github.com/zahid23saim" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://dev.to/zahid23saim" target="_blank" rel="noopener">dev.to</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">© <span id="yr"></span> Zahid Ahmed · Built with plain HTML &amp; CSS · Hosted on GitHub Pages</div></footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>
