@@ -35,7 +35,12 @@
   @media(max-width:640px){nav .links{display:none}}
 
   /* hero */
-  header.hero{padding:70px 0 58px}
+  header.hero{padding:64px 0 58px;position:relative}
+  header.hero::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2))}
+  .avatar{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:26px;color:#fff;letter-spacing:1px;margin-bottom:20px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 6px 22px rgba(76,139,245,.28)}
   .hero .kicker{color:var(--accent2);font-weight:600;letter-spacing:1px;font-size:14px;text-transform:uppercase}
   .hero h1{font-size:44px;line-height:1.1;margin:10px 0 8px;letter-spacing:-.5px}
   .hero .role{font-size:20px;color:var(--muted);margin-bottom:18px}
@@ -52,7 +57,8 @@
   .skillgrid{display:grid;grid-template-columns:180px 1fr;gap:10px 20px}
   .skillgrid .k{color:var(--accent2);font-weight:600}
   .chips{display:flex;flex-wrap:wrap;gap:7px}
-  .chip{background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:3px 10px;font-size:13px;color:var(--ink)}
+  .chip{background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:3px 10px;font-size:13px;color:var(--ink);transition:border-color .15s ease,color .15s ease}
+  .chip:hover{border-color:var(--accent2);color:#fff}
   @media(max-width:640px){.skillgrid{grid-template-columns:1fr;gap:4px 0}.skillgrid .k{margin-top:12px}}
 
   /* experience */
@@ -67,7 +73,8 @@
   /* projects */
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   @media(max-width:640px){.cards{grid-template-columns:1fr}}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;transition:border-color .18s ease, transform .18s ease}
+  .card:hover{border-color:var(--accent);transform:translateY(-3px)}
   .card h3{font-size:17px}
   .card .stack{color:var(--accent2);font-size:12px;margin:4px 0 10px;font-family:ui-monospace,Menlo,Consolas,monospace}
   .card p{color:var(--muted);font-size:14px;flex:1}
@@ -106,6 +113,7 @@
 </div></nav>
 
 <header class="hero"><div class="wrap">
+  <div class="avatar">ZA</div>
   <div class="kicker">Software Developer · AI Evaluation &amp; Data Quality</div>
   <h1>Zahid Ahmed</h1>
   <div class="role">Building software, and testing where AI breaks.</div>
@@ -236,8 +244,7 @@
     <div class="card">
       <h3>Smart Maintenance Portal</h3>
       <div class="stack">Java · Python · MySQL · HTML/CSS</div>
-      <p>A full-stack web portal for submitting municipal complaints and tracking resolution, with an admin dashboard that routes complaints to departments and monitors real-time status.</p>
-      <div class="links"><span class="muted" style="font-size:13px">Academic / professional project</span></div>
+      <p>A full-stack web portal, built during earlier software-development work, for submitting municipal complaints and tracking their resolution — with an admin dashboard that routes each complaint to the right department and monitors real-time status. Full-stack build across backend, database, and UI.</p>
     </div>
 
   </div>
