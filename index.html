@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Zahid Ahmed — Software Developer &amp; AI Evaluation</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <meta name="description" content="Zahid Ahmed — software developer and AI-evaluation specialist. Handshake AI Fellow building software tasks and tests that train and evaluate AI coding models. Python, .NET, SQL/Oracle PL/SQL, open-source projects and technical writing.">
 <style>
   :root{
@@ -38,9 +39,9 @@
   header.hero{padding:64px 0 58px;position:relative}
   header.hero::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
     background:linear-gradient(90deg,var(--accent),var(--accent2))}
-  .avatar{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-    font-weight:800;font-size:26px;color:#fff;letter-spacing:1px;margin-bottom:20px;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 6px 22px rgba(76,139,245,.28)}
+  .avatar{display:block;width:104px;height:104px;margin-bottom:20px}
+  .avatar img{display:block;width:104px;height:104px;border-radius:50%;border:2px solid var(--line);
+    box-shadow:0 6px 22px rgba(76,139,245,.28)}
   .hero .kicker{color:var(--accent2);font-weight:600;letter-spacing:1px;font-size:14px;text-transform:uppercase}
   .hero h1{font-size:44px;line-height:1.1;margin:10px 0 8px;letter-spacing:-.5px}
   .hero .role{font-size:20px;color:var(--muted);margin-bottom:18px}
@@ -113,7 +114,10 @@
 </div></nav>
 
 <header class="hero"><div class="wrap">
-  <div class="avatar">ZA</div>
+  <picture class="avatar">
+    <source srcset="assets/avatar-still.png" media="(prefers-reduced-motion: reduce)">
+    <img src="assets/avatar.gif" width="104" height="104" alt="Zahid Ahmed's avatar: a cursor types the monogram &lt;ZA/&gt; like code">
+  </picture>
   <div class="kicker">Software Developer · AI Evaluation &amp; Benchmark Design</div>
   <h1>Zahid Ahmed</h1>
   <div class="role">Building software, and testing where AI breaks.</div>
