@@ -54,6 +54,11 @@
   .btn.ghost{color:var(--ink);background:var(--panel)}
   .btn.ghost:hover{background:var(--panel2);text-decoration:none}
 
+  /* brand intro */
+  .intro{margin-top:26px}
+  .intro video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#0e131b;border:1px solid var(--line);border-radius:12px}
+  .intro figcaption{margin-top:10px;color:var(--muted);font-size:14px}
+
   /* skills */
   .skillgrid{display:grid;grid-template-columns:180px 1fr;gap:10px 20px}
   .skillgrid .k{color:var(--accent2);font-weight:600}
@@ -137,6 +142,10 @@
   <h2>About</h2>
   <p>I’m a software developer and AI-evaluation specialist with a Master of Computer Applications and 15+ years across software engineering, database work, data quality, and research. I’ve built full-stack web applications and backend systems in Python, .NET, C#, and Java, and tuned complex SQL and Oracle PL/SQL workloads for performance.</p>
   <p style="margin-top:12px">Today I’m a Handshake AI Fellow, creating challenging software tasks that train and evaluate frontier AI coding models — designing the problem, setting up a reproducible environment, writing the reference solution, and building tests that accept every valid solution while rejecting subtly broken ones. Before that, I evaluated multilingual LLM and speech output at Appen. It sits right where software engineering meets AI quality, and it’s the work I find most interesting.</p>
+  <figure class="intro">
+    <video id="intro" src="assets/brand-intro.mp4" poster="assets/brand-intro-poster.jpg" width="1280" height="720" muted loop playsinline controls preload="none" aria-label="Brand intro: the monogram &lt;ZA/&gt; above the line “I build tested software, and the evals that keep AI honest.” while check marks light up one by one in a test panel"></video>
+    <figcaption>My 10-second brand intro, made with Gemini: first the banner, then a video from it. The first take garbled “tested” into “testea”, so I locked the camera, regenerated it, and checked the text frame by frame.</figcaption>
+  </figure>
 </div></section>
 
 <section id="skills"><div class="wrap">
@@ -322,5 +331,19 @@
 
 <footer><div class="wrap">© <span id="yr"></span> Zahid Ahmed · Built with plain HTML &amp; CSS · Hosted on GitHub Pages</div></footer>
 <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+<script>
+// Play the intro only while it's on screen; skip autoplay for reduced motion, and never undo a viewer's pause.
+(function(){
+  var v=document.getElementById('intro');
+  if(!v||!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var userPaused=false,autoPause=false;
+  v.addEventListener('pause',function(){if(!autoPause)userPaused=true;autoPause=false;});
+  v.addEventListener('play',function(){userPaused=false;});
+  new IntersectionObserver(function(es){
+    if(es[0].isIntersecting){if(!userPaused&&v.paused)v.play().catch(function(){});}
+    else if(!v.paused){autoPause=true;v.pause();}
+  },{threshold:.5}).observe(v);
+})();
+</script>
 </body>
 </html>
